@@ -1,111 +1,82 @@
 .notes {
   display: flex;
   flex-direction: column; }
-
-.notes button {
-  color: #A6A6B8; }
-
-.notes button.delete {
-  background-color: #cc0000;
-  color: #fff;
-  border-color: #e14848; }
-
-.notes button:focus, .notes button:hover {
-  border-color: #59597F;
-  color: #7E7E9A; }
-
-.notes button:focus:disabled, .notes button:hover:disabled {
-  color: #A6A6B8; }
-
-.notes .header {
-  text-align: right; }
-
-.notes .header button {
-  margin: 1em; }
-
-.notes .body {
-  display: flex;
-  flex-direction: row;
-  height: 100%; }
-
-.notes .body .folders-list, .notes .body .notes-list {
-  flex: 0 0 200px; }
-
-.notes .body .entry-form {
-  flex: 1; }
-
-.notes .entry-form {
-  display: flex;
-  flex-direction: column;
-  height: 100%; }
-
-.notes .entry-form > * {
-  margin: 1em 1em 0 1em; }
-
-.notes .entry-form ::placeholder {
-  color: #A6A6B8; }
-
-.notes .entry-form input {
-  flex: 0 0 2em; }
-
-.notes .entry-form textarea {
-  flex: 1; }
-
-.notes .entry-form div {
-  display: flex;
-  flex: 0 0 4em;
-  justify-content: space-evenly;
-  align-items: center; }
-
-.notes .header {
-  background-color: #ccccd7; }
-
-.notes .header input {
-  background-color: transparent;
-  border-radius: 0;
-  border-bottom: 1px solid #A6A6B8; }
-
-.notes .header input ::placeholder {
-  color: #A6A6B8; }
-
-.notes .header button {
-  color: #FBFBFB;
-  background-color: #59597F; }
-
-.notes .folders-list, .notes .notes-list {
-  display: inline-block;
-  height: 100%;
-  overflow-y: auto;
-  color: #555; }
-
-.notes .folders-list {
-  background-image: linear-gradient(to bottom, #D5D5DC, #b9b9c5); }
-
-.notes .folders-list li {
-  border-bottom: 1px solid #9BA3AD; }
-
-.notes .folders-list li.selected {
-  background-color: #62557C;
-  color: #FBFBFB; }
-
-.notes .notes-list {
-  background-image: linear-gradient(to bottom, #e0e0e5, #cacad3);
-  height: 100%; }
-
-.notes .notes-list li {
-  border-bottom: 1px solid #D5D5DC; }
-
-.notes .notes-list .name {
-  font-weight: lighter; }
-
-.notes .notes-list .meta {
-  color: #A6A6B8;
-  text-transform: uppercase;
-  font-size: 0.75em; }
-
-.notes .notes-list .selected {
-  background-color: #59597F;
-  color: #D5D5DC; }
-
-.notes .notes-list .selected .meta {
-  color: #9BA3AD; }
+  .notes button {
+    color: #A6A6B8; }
+  .notes button.delete {
+    background-color: #cc0000;
+    color: #fff;
+    border-color: #e14848; }
+  .notes button:focus, .notes button:hover {
+    border-color: #59597F;
+    color: #7E7E9A; }
+    .notes button:focus:disabled, .notes button:hover:disabled {
+      color: #A6A6B8; }
+  .notes .header {
+    text-align: right; }
+    .notes .header button {
+      margin: 1em; }
+  .notes .body {
+    display: flex;
+    flex-direction: row;
+    height: 100%; }
+    .notes .body .folders-list, .notes .body .notes-list {
+      flex: 0 0 200px; }
+    .notes .body .entry-form {
+      flex: 1; }
+  .notes .entry-form {
+    display: flex;
+    flex-direction: column;
+    height: 100%; }
+    .notes .entry-form > * {
+      margin: 1em 1em 0 1em; }
+    .notes .entry-form ::placeholder {
+      color: #A6A6B8; }
+    .notes .entry-form input {
+      flex: 0 0 2em; }
+    .notes .entry-form textarea {
+      flex: 1; }
+    .notes .entry-form div {
+      display: flex;
+      flex: 0 0 4em;
+      justify-content: space-evenly;
+      align-items: center; }
+  .notes .header {
+    background-color: #ccccd7; }
+    .notes .header input {
+      background-color: transparent;
+      border-radius: 0;
+      border-bottom: 1px solid #A6A6B8; }
+      .notes .header input ::placeholder {
+        color: #A6A6B8; }
+    .notes .header button {
+      color: #FBFBFB;
+      background-color: #59597F; }
+  .notes .folders-list, .notes .notes-list {
+    display: inline-block;
+    height: 100%;
+    overflow-y: auto;
+    color: #555; }
+  .notes .folders-list {
+    background-image: linear-gradient(to bottom, #D5D5DC, #b9b9c5); }
+    .notes .folders-list li {
+      border-bottom: 1px solid #9BA3AD; }
+      .notes .folders-list li.selected {
+        background-color: #62557C;
+        color: #FBFBFB; }
+  .notes .notes-list {
+    background-image: linear-gradient(to bottom, #e0e0e5, #cacad3);
+    height: 100%; }
+    .notes .notes-list li {
+      border-bottom: 1px solid #D5D5DC; }
+    .notes .notes-list .name {
+      font-weight: lighter; }
+    .notes .notes-list .meta {
+      color: #A6A6B8;
+      text-transform: uppercase;
+      font-size: 0.75em; }
+    .notes .notes-list .selected {
+      background-color: #59597F;
+      color: #D5D5DC; }
+      .notes .notes-list .selected .meta {
+        color: #9BA3AD; }
