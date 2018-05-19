@@ -1,0 +1,9 @@
+.setup {
+    text-align: center;
+}
+.setup .button-group {
+    text-align: center;
+}
+.setup .button-group button {
+    width: 10%;
+}

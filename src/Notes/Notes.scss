@@ -1,0 +1,134 @@
+@import "../constants";
+
+.notes {
+    display: flex;
+    flex-direction: column;
+
+    button {
+        color: $color-primary-0;
+    }
+    button.delete {
+        background-color: #cc0000;
+        color: #fff;
+        border-color: #e14848;
+    }
+    button:focus, button:hover {
+        border-color: $color-primary-4;
+        color: $color-primary-3;
+
+        &:disabled {
+            color: $color-primary-0;
+        }
+    }
+    .header {
+        text-align: right;
+        button {
+            margin: 1em;
+
+        }
+    }
+
+    .body {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+
+        .folders-list, .notes-list {
+            flex: 0 0 200px;
+        }
+        .entry-form {
+            flex: 1;
+        }        
+    }
+    .entry-form {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        // padding: 1em;
+        > * {
+            margin: 1em 1em 0 1em;
+        }
+        ::placeholder {
+            color: $color-primary-0;
+        }
+
+        input {
+            flex: 0 0 2em;
+        }
+        textarea {
+            flex: 1; 
+        }
+        div {
+            display: flex;
+            flex: 0 0 4em;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+    }
+
+    .header {
+        background-color: #ccccd7;
+
+
+        input {
+            background-color: transparent;
+            border-radius: 0;
+            border-bottom: 1px solid $color-primary-0;
+
+            ::placeholder { color: $color-primary-0; }
+        }
+        button {
+            color: $color-primary-1;
+            background-color: $color-primary-4;
+        }
+    }
+
+    .folders-list, .notes-list {
+        display: inline-block;
+        height: 100%;
+        overflow-y: auto;
+        color: #555;
+    }
+    .folders-list {
+        background-image: linear-gradient(to bottom, $color-primary-2, darken($color-primary-2, 10%));
+    
+        li {
+            border-bottom: 1px solid $color-secondary-2-0;
+    
+            &.selected {
+                background-color: $color-secondary-1-4;
+                color: $color-primary-1;
+            }
+        }
+    }
+
+    .notes-list {
+        background-image: linear-gradient(to bottom, lighten($color-primary-2, 4%), darken($color-primary-2, 4%));
+        // background-color: lighten($color-primary-2, 4%);
+        height: 100%;
+
+        li {
+            border-bottom: 1px solid $color-primary-2;
+        
+        }
+
+        .name {
+            font-weight: lighter;
+        }
+        .meta {
+            color: $color-primary-0;
+            text-transform: uppercase;
+            font-size: 0.75em;
+        }
+        .selected {
+            background-color: $color-primary-4;
+            color: $color-primary-2;
+
+            .meta {
+                color: $color-secondary-2-0;
+            }
+        }
+    }
+}
+
+

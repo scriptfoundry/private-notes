@@ -1,0 +1,29 @@
+ul, ol {
+  list-style: none; }
+
+li {
+  padding: .5em .5em;
+  margin: 0; }
+
+h1, h2, h3 {
+  font-weight: lighter;
+  text-align: center; }
+
+p {
+  line-height: 1.2em; }
+
+button[disabled] {
+  background-color: #ebebeb;
+  color: #d6d5d5;
+  border-color: inherit; }
+
+.button-group > * {
+  vertical-align: top; }
+
+.App, .notes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; }
