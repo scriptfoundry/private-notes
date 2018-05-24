@@ -66,12 +66,9 @@ class Notes extends Component {
     }
     async componentDidMount() {
         try {
-            let notes = await getNotes(this.props.password);
-            this.setState({ notes });
+            this.setState({ notes: await getNotes(this.props.password) });
         } catch (err) {
-            if (err.message === ERR_COULD_NOT_DECRYPT) {
-                return this.props.onAuthenticationError();
-            }
+            if (err.message === ERR_COULD_NOT_DECRYPT) this.props.onAuthenticationError();
         }
     }
     requiresWarning() {
