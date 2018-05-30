@@ -37,6 +37,17 @@ export const sortByDate = makeSorter((a, b) => {
     return a > b ? -1 : 1;
 });
 
+export const calculateMaxEntropy = input => {
+    const tests = [ { test: /[a-z]/, characters: 26 }, { test: /[A-Z]/, characters: 26 }, { test: /[0-9]/, characters: 10 }, { test: /[!@#$%^&*()]/i, characters: 10 }, { test: /["`~_=+[{};|:'^,<.>/?\]\\-]/, characters: 23 } ];
+    const pool = tests.reduce((pool, {test, characters}) => test.test(input) ? pool + characters : pool, 0);
+
+    return Math.log2(pool) * input.length;
+};
+export const calculateMaxEntropyLabel = input => {
+    const entropy = calculateMaxEntropy(input);
+    const values = [ { bits: 32, label: 'Weak' }, { bits: 46, label: 'Reasonable' }, { bits: 60, label: 'Strong' }, { bits: 128, label: 'Very strong' } ];
+    return values.reduce((c, {bits, label}) => entropy > bits ? label : c, 'Very weak');
+};
 export const buildComparator = (fields=[]) => (a, b) => a && b && fields.every(field => a[field] === b[field]);
 
 export const noop = () => {};

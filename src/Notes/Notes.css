@@ -2,7 +2,8 @@
   display: flex;
   flex-direction: column; }
   .notes button {
-    color: #A6A6B8; }
+    color: #59597F;
+    background-color: #D5D5DC; }
   .notes button.delete {
     background-color: #cc0000;
     color: #fff;
@@ -80,3 +81,29 @@
       color: #D5D5DC; }
       .notes .notes-list .selected .meta {
         color: #9BA3AD; }
+  .notes .dialog {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-content: space-around;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.6); }
+    .notes .dialog .box {
+      padding: 1em 3em;
+      background-color: #FBFBFB;
+      border-radius: 1em;
+      border: 0.1em solid #A6A6B8;
+      max-width: 50%; }
+    .notes .dialog button {
+      margin: 0 .5em; }
+    .notes .dialog h1, .notes .dialog p {
+      text-align: center;
+      color: #59597F; }
+    .notes .dialog h1 {
+      font-size: 2em;
+      font-weight: 400; }

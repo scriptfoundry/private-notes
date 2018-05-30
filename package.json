@@ -1,13 +1,22 @@
 {
   "name": "private-notes",
+  "productName": "Private Notes",
+  "description": "Private notes saved to a SQLite database",
   "version": "0.1.0",
+  "author": "",
+  "license": "ISC",
   "private": true,
   "dependencies": {
+    "electron-is-dev": "^0.3.0",
     "node-sass": "^4.9.0",
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-scripts": "1.1.4"
+  },
+  "devDependencies": {
+    "electron": "^2.0.2",
+    "electron-builder": "^20.14.7"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -15,11 +24,21 @@
     "css:watch": "node-sass src/ -o src/ --recursive --watch",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "electron:dist": "electron-builder"
   },
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
-  "main": "index.js",
-  "devDependencies": {},
-  "author": "",
-  "license": "ISC"
+  "main": "public/electron.js",
+  "homepage": "./",
+  "build": {
+    "appId": "com.scriptfoundry.securenotes",
+    "productName": "Private Notes",
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        "dmg"
+      ],
+      "icon": "assets/icons/mac/1024x1024.png.icns"
+    }
+  }
 }

@@ -1,9 +1,14 @@
 .setup {
-    text-align: center;
-}
-.setup .button-group {
-    text-align: center;
-}
-.setup .button-group button {
-    width: 10%;
-}
+  text-align: center; }
+  .setup .box {
+    position: relative; }
+  .setup .close-button {
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    line-height: 1em;
+    font-size: 2em;
+    color: #59597F;
+    cursor: pointer; }
+  .setup .button-group button {
+    width: 15%; }

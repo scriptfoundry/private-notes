@@ -1,0 +1,21 @@
+@import "../constants";
+
+.setup {
+    text-align: center;
+
+    .box {
+        position: relative;
+    }
+    .close-button {
+        position: absolute;
+        top: 1rem;
+        right: 2rem;
+        line-height: 1em;
+        font-size: 2em;
+        color: $color-primary-4;
+        cursor: pointer;
+    }
+    .button-group button {
+        width: 15%;
+    }
+}

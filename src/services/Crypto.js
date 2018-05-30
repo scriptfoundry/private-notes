@@ -33,7 +33,7 @@ export const encryptText = async (textIn, password) => {
     return { iv, plainText };
 };
 
-export const decryptText = async (input, iv, password, delayTime=500) => {
+export const decryptText = async (input, iv, password, delayTime=0) => {
     const ctBuffer = str2ab(input);
     const pwHash = await digest(password);
 

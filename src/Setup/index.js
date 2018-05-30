@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Form from './Form';
+import { calculateMaxEntropyLabel } from '../services/Utils';
 import './Setup.css';
 
 class Setup extends Component {
@@ -8,6 +9,7 @@ class Setup extends Component {
         super(...args);
 
         this.state = {
+            entropyLabel: '',
             type: 'password',
             valid: false
         };
@@ -41,7 +43,9 @@ class Setup extends Component {
             else this.submit();
         }
 
-        this.setState({ valid: this.getValidPassword() !== null });
+        let entropyLabel = calculateMaxEntropyLabel(this.inputRef.current.value);
+
+        this.setState({ valid: this.getValidPassword() !== null, entropyLabel });
     }
     submit() {
         let password = this.getValidPassword();
@@ -49,6 +53,9 @@ class Setup extends Component {
     }
     render() {
         return <Form
+            onCancel={ this.props.onCancel }
+            classNames={ this.props.classNames }
+            entropyLabel={ this.state.entropyLabel }
             type={ this.state.type }
             valid={ this.state.valid }
             onChange={ this.onChange }
@@ -60,7 +67,9 @@ class Setup extends Component {
     }
 }
 Setup.propTypes = {
-    onComplete: PropTypes.func.isRequired
+    classNames: PropTypes.string,
+    onComplete: PropTypes.func.isRequired,
+    onCancel: PropTypes.func
 };
 
 export default Setup;
