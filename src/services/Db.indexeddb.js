@@ -207,3 +207,33 @@ export const updatePassword = (password, newPassword) => new Promise(async (reso
         reject(err);
     }
 });
+export const search = (needles, exact, password) => new Promise((resolve) => {
+    let matches = [];
+
+    if (needles.trim() === '') return resolve(null);
+
+    needles = needles.trim().split(/\s+/).map(needle => {
+        let pattern = exact ? `\\b${needle}\\b` : needle;
+        return new RegExp(pattern, 'ig');
+    }).filter(needle => needle !== '');
+
+    if (needles.length === 0) return resolve(null);
+
+    const scanKeys = (keys) => {
+        let [key, ...remainingKeys] = keys;
+        if (!key) return resolve(matches);
+
+        getStore().get(key).onsuccess = async ({ target: { result }}) => {
+            if (result) {
+                let { name, folder, content } = await decryptNote(result, password);
+                let haystack = name + ' ' + content;
+
+                if (needles.some(needle => needle.test(haystack))) matches.push({ id: key, name, folder });
+            }
+
+            scanKeys(remainingKeys);
+        };
+    };
+
+    getStore().getAllKeys().onsuccess = ({ target: { result }}) => scanKeys(result);
+});

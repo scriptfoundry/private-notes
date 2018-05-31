@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { updateNote, createNote, deleteNoteById, getNoteById, getNotes, exportNotes, importNotes, updatePassword } from '../services/Db';
+import { updateNote, createNote, deleteNoteById, getNoteById, getNotes, exportNotes, importNotes, updatePassword, search } from '../services/Db';
 import { load, save } from '../services/File';
 import { ERR_COULD_NOT_DECRYPT } from '../services/Crypto';
 import { memoize, buildComparator, sortByDate } from '../services/Utils';
@@ -8,6 +8,7 @@ import Header from './Header';
 import FoldersList from './FoldersList';
 import NotesList from './NotesList';
 import NoteEditorForm from './NoteEditorForm';
+import Search from './Search';
 import SetupPassword from '../Setup';
 
 import './Notes.css';
@@ -53,12 +54,14 @@ class Notes extends Component {
             notes: [],
             suggestions: null,
             error: null,
-            showPasswordChange: false
+            showPasswordChange: false,
+            showSearch: false
         };
 
         this.nameRef = React.createRef();
         this.folderRef = React.createRef();
         this.contentRef = React.createRef();
+        this.searchRef = React.createRef();
 
         ipcRenderer.on('import', this.import.bind(this));
         ipcRenderer.on('export', this.export.bind(this));
@@ -76,6 +79,8 @@ class Notes extends Component {
         this.clearError = this.clearError.bind(this);
         this.changePassword = this.changePassword.bind(this);
         this.hidePasswordChangeForm = this.hidePasswordChangeForm.bind(this);
+        this.toggleSearch = this.toggleSearch.bind(this);
+        this.search = this.search.bind(this);
     }
     async componentDidMount() {
         try {
@@ -105,7 +110,8 @@ class Notes extends Component {
         if (this.requiresWarning()) return;
         let selectedNote = await getNoteById(id, this.props.password);
         let originalNote = { ...selectedNote };
-        this.setState({ selectedNote, originalNote }, () => this.nameRef.current.select());
+        let { folder:selectedFolder }  = selectedNote;
+        this.setState({ showSearch: false, selectedFolder, selectedNote, originalNote }, () => this.nameRef.current.select());
     }
     getFolderSuggestionsList(cue) {
         return buildSuggestionListFromCueAndNotes(cue, this.state.notes);
@@ -194,6 +200,16 @@ class Notes extends Component {
     hidePasswordChangeForm() {
         this.setState({ showPasswordChange: false });
     }
+    toggleSearch() {
+        let showSearch = !this.state.showSearch;
+
+        this.setState({ showSearch: !this.state.showSearch }, () => showSearch && this.searchRef.current.select());
+    }
+    async search() {
+        let needle = this.searchRef.current.value;
+        let searchResults = await search(needle, false, this.props.password);
+        this.setState({ searchResults }, () => this.searchRef.current.focus());
+    }
     async changePassword(newPassword) {
         try {
             let { password, onChangePassword } = this.props;
@@ -205,9 +221,12 @@ class Notes extends Component {
         }
     }
     render() {
-        let { notes, selectedFolder, selectedNote, originalNote, showPasswordChange, suggestions } = this.state;
+        let { notes, showSearch, selectedFolder, selectedNote, originalNote, showPasswordChange, suggestions, searchResults } = this.state;
         let folders = getFolderNames(notes);
         let folderNotes = getNoteNames(selectedFolder, notes);
+
+        if (showPasswordChange) return <SetupPassword canCancel={true} classNames='dialog' onComplete={ this.changePassword } onCancel={this.hidePasswordChangeForm } />;
+        if (showSearch) return <Search searchRef={ this.searchRef } onDismiss={ this.toggleSearch } onChange={ this.search} onSelect={ this.selectNote } searchResults={ searchResults } />;
 
         let noteEditorForm = null;
         if (selectedNote) {
@@ -227,12 +246,11 @@ class Notes extends Component {
         }
 
         return (<div className="notes">
-            <Header onCreateNote={ this.create } />
+            <Header onCreateNote={ this.create } onShowSearch={ this.toggleSearch } />
             <div className="body">
                 <FoldersList folders={ folders } selectedFolder={ selectedFolder } onSelect={ this.selectFolder } />
                 <NotesList notes={ folderNotes } selectedNote={ selectedNote } onSelect={ this.selectNote } />
                 { noteEditorForm }
-                { showPasswordChange ? <SetupPassword canCancel={true} classNames='dialog' onComplete={ this.changePassword } onCancel={this.hidePasswordChangeForm } /> : null }
             </div>
         </div>);
     }
