@@ -44,7 +44,7 @@
       "target": [
         "nsis"
       ],
-      "icon": "assets/icons/mac/1024x1024.png.icns"
+      "icon": "assets/icons/win/1024x1024.png.ico"
     }
   }
 }
