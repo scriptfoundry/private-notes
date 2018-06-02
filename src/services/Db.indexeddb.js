@@ -31,8 +31,13 @@ const decryptNote = async ({ name, name_iv, folder, folder_iv, content, content_
     return { name, folder, content };
 };
 
-
-export const DELETE = () => indexedDB.deleteDatabase('PrivateNotes');
+/**
+ * Initializes database
+ * Note that while `upgradeneeded` is implemented, it is only used for creating the database.
+ * Any schema changes in the future must provide a complete upgrade implementation.
+ *
+ * @returns Promise that resolves when finished or rejects when an error is encountered.
+ */
 export const init = () => new Promise((resolve, reject) => {
     if (db !== null) return resolve();
 
@@ -49,7 +54,22 @@ export const init = () => new Promise((resolve, reject) => {
 
     });
 });
+
+/**
+ * Returns if notes exist at all
+ * If no notes exist, then the app is considered "fresh" and a new password should be requested -- even if
+ * a database exists and is merely empty.
+ *
+ * @returns Promise that resolves true if notes exist or false if no notes exist
+ */
 export const notesExist = () => new Promise((resolve) => getStore().getAll().onsuccess = ({ target: { result }}) => resolve(result && result.length > 0));
+
+/**
+ * Gets a list of the summary of all notes
+ *
+ * @param {string} password
+ * @returns Promise that resolves with a list of each note's id, name, folder and creation/update timestamps
+ */
 export const getNotes = (password) => new Promise((resolve, reject) => {
     let results = [];
 
@@ -75,6 +95,13 @@ export const getNotes = (password) => new Promise((resolve, reject) => {
         }
     };
 });
+
+/**
+ * Get a note by its id
+ * @param {number} id
+ * @param {string} password
+ * @returns Promise that resolves with the entire contents of a note by its id, or rejects if no note of that ID exists
+ */
 export const getNoteById = (id, password) => new Promise((resolve, reject) => {
     getStore().get(id).onsuccess = async ({ target: { result }}) => {
         try {
@@ -89,9 +116,22 @@ export const getNoteById = (id, password) => new Promise((resolve, reject) => {
         }
     };
 });
+
+/**
+ * Delete a note by its id
+ * @param {number} id
+ * @returns Promise that resolves when the note is deleted
+ */
 export const deleteNoteById = (id) => new Promise((resolve) => {
     getStore(true).delete(id).onsuccess = () => resolve();
 });
+
+/**
+ * Update an existing note
+ * @param {object} note
+ * @param {string} password
+ * @returns Promise that resolves when the note is updated, or rejects if an error was encountered
+ */
 export const updateNote = ({ id, folder, name, content }, password) => new Promise(async (resolve, reject) => {
     let currentNote = await getNoteById(id, password);
     let updatedNote = await encryptNote({ name, folder, content }, password);
@@ -110,6 +150,13 @@ export const updateNote = ({ id, folder, name, content }, password) => new Promi
     };
     resolve(8);
 });
+
+/**
+ * Creates a new note
+ * @param {object} note
+ * @param {string} password
+ * @returns Promise that resolves the new note id, or rejects if there was an error
+ */
 export const createNote = ({ name, folder, content }, password) => new Promise(async (resolve, reject) => {
     let note = await encryptNote({ name, folder, content }, password);
     let created = Date.now();
@@ -126,6 +173,11 @@ export const createNote = ({ name, folder, content }, password) => new Promise(a
     });
     request.addEventListener('error', err => reject(err));
 });
+
+/**
+ * Gets a verbatim list of all (encrypted) notes in the database
+ * @returns Promise that resolves when the export list is complete
+ */
 export const exportNotes = () => new Promise(resolve => {
     let records = [];
     getStore().openCursor().onsuccess = ({ target: { result:cursor } }) => {
@@ -136,6 +188,16 @@ export const exportNotes = () => new Promise(resolve => {
         } else resolve(records);
     };
 });
+
+/**
+ * Re-imports a list of verbatim notes
+ * If any note in the archive cannot be decrypted, the user password may have changed. The user is
+ * allowed the opportunity to exit early or continue and import the notes as is.
+ * @param {object} notes
+ * @param {string} password
+ * @returns Promise that resolves when the import is complete or rejects if the process could not be
+ * completed, either due to error or because the user exited early.
+ */
 export const importNotes = (notes, password) => new Promise(async (resolve, reject) => {
     if (!notes) return reject(new Error(ERR_CANNOT_IMPORT));
 
@@ -161,6 +223,15 @@ export const importNotes = (notes, password) => new Promise(async (resolve, reje
 
     clearDb(tx, () => addNextRecord(tx, notes, () => resolve()));
 });
+
+/**
+ * Change the password used to encrypt every note
+ * Because all notes require the same password, this must be done transactionally. Any failure here must
+ * cause an early exit and a promise rejection
+ * @param {string} password
+ * @param {string} newPassword
+ * @returns Promise that resolves when the process is complete or rejects if an error was encountered
+ */
 export const updatePassword = (password, newPassword) => new Promise(async (resolve, reject) => {
     const getRecords = () => new Promise(resolve => {
         let records = [];
@@ -207,6 +278,14 @@ export const updatePassword = (password, newPassword) => new Promise(async (reso
         reject(err);
     }
 });
+
+/**
+ * Search every note's name and contents for a string
+ * @param {strint} needles
+ * @param {boolean} exact
+ * @param {string} password
+ * @returns Promise that resolves with matching notes
+ */
 export const search = (needles, exact, password) => new Promise((resolve) => {
     let matches = [];
 

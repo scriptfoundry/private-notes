@@ -4,8 +4,8 @@
   "description": "Private notes saved to a SQLite database",
   "version": "0.1.0",
   "author": "",
-  "license": "ISC",
-  "private": true,
+  "license": "MIT",
+  "private": false,
   "dependencies": {
     "electron-is-dev": "^0.3.0",
     "node-sass": "^4.9.0",
@@ -37,6 +37,12 @@
       "category": "public.app-category.productivity",
       "target": [
         "dmg"
+      ],
+      "icon": "assets/icons/mac/1024x1024.png.icns"
+    },
+    "win": {
+      "target": [
+        "nsis"
       ],
       "icon": "assets/icons/mac/1024x1024.png.icns"
     }

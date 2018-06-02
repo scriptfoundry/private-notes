@@ -1,7 +1,6 @@
 import { delay } from './Utils';
 
 export const ERR_COULD_NOT_DECRYPT = 'Could not decrypt.';
-export const TEST_STRING = `09dcX@phAy,U"Cv-h{oqX;.dKyj.q9y-*e-;m,1ok@:_]0CZ/HbbU;ul#'jO/yMoBl.]SB!giHVqLLOpduf6FY/5beMro`; // eslint-disable-line
 
 const digest = async (text) => {
     const pwUtf8 = new TextEncoder().encode(text);
@@ -27,7 +26,7 @@ export const encryptText = async (textIn, password) => {
     const key = await crypto.subtle.importKey('raw', pwHash, alg, false, ['encrypt']);
     const encBuffer = await crypto.subtle.encrypt(alg, key, inUtf8);
 
-    const plainText = ab2str(encBuffer); //btoa(String.fromCharCode(...new Uint8Array(encBuffer)));
+    const plainText = ab2str(encBuffer);
     const iv = ab2str(rawIv);
 
     return { iv, plainText };
