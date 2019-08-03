@@ -7,7 +7,10 @@ const browserWindowSettings = {
     backgroundColor: '#eeeeee',
     icon: path.join(__dirname, 'assets/icons/png/1024x1024.png'),
     minWidth: 800,
-    minHeight: 600
+    minHeight: 600,
+    webPreferences: {
+        nodeIntegration: true,
+    },
 };
 
 let pageUrl;
